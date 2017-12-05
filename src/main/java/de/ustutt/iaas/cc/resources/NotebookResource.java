@@ -20,7 +20,7 @@ import com.codahale.metrics.annotation.Timed;
 import de.ustutt.iaas.cc.api.Note;
 import de.ustutt.iaas.cc.api.NoteWithText;
 import de.ustutt.iaas.cc.core.INotebookDAO;
-import de.ustutt.iaas.cc.core.ITextProcessor;
+import de.ustutt.iaas.cc.core.textProcessors.ITextProcessor;
 import io.swagger.annotations.Api;
 
 /**
