@@ -24,6 +24,7 @@ import de.ustutt.iaas.cc.core.textProcessors.LocalTextProcessor;
 import de.ustutt.iaas.cc.core.textProcessors.QueueTextProcessor;
 import de.ustutt.iaas.cc.core.textProcessors.RemoteTextProcessor;
 import de.ustutt.iaas.cc.core.textProcessors.RemoteTextProcessorMulti;
+import de.ustutt.iaas.cc.core.textProcessors.loadBalancerStrategies.LoadBalancerStrategyFactory;
 import de.ustutt.iaas.cc.resources.NotebookResource;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
@@ -141,7 +142,10 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 			JerseyClientConfiguration jcfm = configuration.getJerseyClientConfiguration();
 			jcfm.setGzipEnabled(false);
 			final Client clientm = new JerseyClientBuilder(environment).using(jcfm).build(getName());
-			tp = new RemoteTextProcessorMulti(eps, clientm);
+			logger.info("Load balancer strategy: {}", configuration.textProcessorConfiguration.loadBalancerStrategy);
+			LoadBalancerStrategyFactory factory = new LoadBalancerStrategyFactory();
+			tp = new RemoteTextProcessorMulti(factory.getLoadBalacerStrategy(
+					configuration.textProcessorConfiguration.loadBalancerStrategy, eps, clientm));
 			break;
 		case queue:
 			logger.info("Using queue text processor reading from {} and writing to {}",
@@ -165,5 +169,4 @@ public class NotebookappApplication extends Application<NotebookappConfiguration
 			// TODO exit with error?
 		}
 	}
-
 }

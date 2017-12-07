@@ -22,10 +22,10 @@ server:
   rootPath: /api/*
   applicationConnectors:
     - type: http
-      port: 80
+      port: ${8080!8081}
   adminConnectors:
     - type: http
-      port: 8081
+      port: ${8082!8083}
 
 logging:
   # The default level of all loggers. Can be OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL.
@@ -101,13 +101,18 @@ serviceInstanceID: My first Notebook App
 
 textProcessor:
   # local, remoteSingle, remoteMulti, queue 
-  mode: local
+  mode: remoteMulti
+  # in case of 'remoteMulti' load balancer strategy is needed for the selecting of the textProcessors
+  # random, roundRobin
+  loadBalancerStrategy: roundRobin
   # text processor service endpoints
   # - in mode "remoteSingle" only the first endpoint will be used
   # - in mode "remoteMulti" all endpoints will be used
   textProcessors:
-    - http://localhost:8090/api
-    - http://localhost:8092/api
+    - http://ec2-34-209-130-56.us-west-2.compute.amazonaws.com/api
+    - http://ec2-52-38-28-252.us-west-2.compute.amazonaws.com/api
+    # - http://localhost:8090/api
+    # - http://localhost:8091/api
   # SQS, ActiveMQ
   # messsaging system, required for mode "queue"
   mom: SQS
@@ -116,7 +121,7 @@ textProcessor:
   # response queue, required for mode "queue"
   responseQueueName: TextProcessorResponses
   # only for ActiveMQ
-  activeMQurl: tcp://localhost:61616
+  activeMQurl: http://localhost:61616
 
 notesDB:
   # tmp, jdbc, gcds

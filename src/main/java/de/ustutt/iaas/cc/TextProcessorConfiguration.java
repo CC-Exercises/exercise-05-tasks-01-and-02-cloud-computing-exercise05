@@ -11,12 +11,18 @@ public class TextProcessorConfiguration {
 		local, remoteSingle, remoteMulti, queue
 	};
 
+	public static enum LoadBalancerStrategy {
+		random, roundRobin
+	};
+
 	public static enum MOM {
 		SQS, ActiveMQ
 	};
 
 	@NotNull
 	public Mode mode;
+
+	public LoadBalancerStrategy loadBalancerStrategy;
 
 	@NotNull
 	@Size(min = 1)
