@@ -10,20 +10,31 @@ import org.slf4j.Logger;
 
 import de.ustutt.iaas.cc.TextProcessorConfiguration;
 
+/**
+ * A factory which returns a load balancer strategy depending on the strategy
+ * configuration.
+ * 
+ *
+ */
 public class LoadBalancerStrategyFactory {
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(LoadBalancerStrategyFactory.class);
 
-	public ILoadBalancerStrategy getLoadBalacerStrategy(TextProcessorConfiguration.LoadBalancerStrategy paramStrategy,
-			List<String> textProcessorResources, Client client) {
-		ILoadBalancerStrategy strategy = null;
+	public AbstractLoadBalancerStrategy getLoadBalacerStrategy(
+			TextProcessorConfiguration.LoadBalancerStrategy strategyConfig, List<String> textProcessorResources,
+			Client client) {
+		AbstractLoadBalancerStrategy strategy = null;
 		List<WebTarget> targets = new ArrayList<>();
 		textProcessorResources.forEach(resource -> {
 			targets.add(client.target(resource));
 		});
-		switch (paramStrategy) {
+		switch (strategyConfig) {
 		case roundRobin:
 			logger.info("Round Robin");
 			strategy = new RoundRobin(targets);
+			break;
+		case leastConnection:
+			logger.info("Least Connection");
+			strategy = new LeastConnection(targets);
 			break;
 		default:
 			logger.info("Random");

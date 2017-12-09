@@ -7,24 +7,35 @@ import javax.ws.rs.client.WebTarget;
 
 import org.slf4j.Logger;
 
-public class RoundRobin implements ILoadBalancerStrategy {
+/**
+ * Load balancer strategy which chooses the server alternately and sends the
+ * request to it.
+ *
+ */
+public class RoundRobin extends AbstractLoadBalancerStrategy {
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(RoundRobin.class);
 
 	private AtomicInteger index = new AtomicInteger();
-	private List<WebTarget> targets;
+	private static List<WebTarget> targets;
 
 	public RoundRobin(List<WebTarget> targets) {
-		this.targets = targets;
+		RoundRobin.targets = targets;
 		logger.debug("Number of Web Targets alias TextProcessors: {}", targets.size());
 	}
 
 	@Override
-	public WebTarget getNextTarget() {
+	protected WebTarget getNextTarget() {
 		if (index.get() == targets.size()) {
 			index.set(0);
 		}
 
 		logger.debug("Next index: " + index.get());
 		return targets.get(index.getAndIncrement());
+	}
+
+	@Override
+	public void executeStrategy(String text) {
+		WebTarget target = this.getNextTarget();
+		this.executePOSTRequest(target, text);
 	}
 }

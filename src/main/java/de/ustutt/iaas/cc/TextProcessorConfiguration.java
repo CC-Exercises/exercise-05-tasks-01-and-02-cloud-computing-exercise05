@@ -12,7 +12,7 @@ public class TextProcessorConfiguration {
 	};
 
 	public static enum LoadBalancerStrategy {
-		random, roundRobin
+		random, roundRobin, leastConnection
 	};
 
 	public static enum MOM {

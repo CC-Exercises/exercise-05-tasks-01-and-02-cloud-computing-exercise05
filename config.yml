@@ -103,14 +103,14 @@ textProcessor:
   # local, remoteSingle, remoteMulti, queue 
   mode: remoteMulti
   # in case of 'remoteMulti' load balancer strategy is needed for the selecting of the textProcessors
-  # random, roundRobin
-  loadBalancerStrategy: roundRobin
+  # random, roundRobin, leastConnection
+  loadBalancerStrategy: leastConnection
   # text processor service endpoints
   # - in mode "remoteSingle" only the first endpoint will be used
   # - in mode "remoteMulti" all endpoints will be used
   textProcessors:
-    - http://ec2-34-209-130-56.us-west-2.compute.amazonaws.com/api
-    - http://ec2-52-38-28-252.us-west-2.compute.amazonaws.com/api
+    - http://ec2-52-33-47-159.us-west-2.compute.amazonaws.com/api
+    - http://ec2-52-42-151-139.us-west-2.compute.amazonaws.com/api
     # - http://localhost:8090/api
     # - http://localhost:8091/api
   # SQS, ActiveMQ
