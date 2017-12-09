@@ -101,7 +101,7 @@ serviceInstanceID: My first Notebook App
 
 textProcessor:
   # local, remoteSingle, remoteMulti, queue 
-  mode: remoteMulti
+  mode: queue
   # in case of 'remoteMulti' load balancer strategy is needed for the selecting of the textProcessors
   # random, roundRobin, leastConnection
   loadBalancerStrategy: leastConnection
