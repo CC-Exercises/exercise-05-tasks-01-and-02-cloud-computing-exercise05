@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 public class RoundRobin extends AbstractLoadBalancerStrategy {
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(RoundRobin.class);
 
-	private AtomicInteger index = new AtomicInteger();
+	private static AtomicInteger atomicIndex = new AtomicInteger();
 	private static List<WebTarget> targets;
 
 	public RoundRobin(List<WebTarget> targets) {
@@ -25,12 +25,9 @@ public class RoundRobin extends AbstractLoadBalancerStrategy {
 
 	@Override
 	protected WebTarget getNextTarget() {
-		if (index.get() == targets.size()) {
-			index.set(0);
-		}
-
-		logger.debug("Next index: " + index.get());
-		return targets.get(index.getAndIncrement());
+		int index = atomicIndex.getAndIncrement() % targets.size();
+		logger.debug("Next index: {} ", index);
+		return targets.get(index);
 	}
 
 	@Override
