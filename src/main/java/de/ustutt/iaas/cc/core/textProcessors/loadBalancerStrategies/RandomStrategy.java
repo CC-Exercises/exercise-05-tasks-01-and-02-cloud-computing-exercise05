@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 public class RandomStrategy extends AbstractLoadBalancerStrategy {
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(RandomStrategy.class);
 
-	private final Random randomGenerator = new Random();
+	private static final Random randomGenerator = new Random();
 	private static List<WebTarget> targets;
 
 	public RandomStrategy(List<WebTarget> targets) {
