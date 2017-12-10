@@ -104,7 +104,7 @@ textProcessor:
   mode: remoteMulti
   # in case of 'remoteMulti' load balancer strategy is needed for the selecting of the textProcessors
   # random, roundRobin, leastConnection
-  loadBalancerStrategy: roundRobin
+  loadBalancerStrategy: leastConnection
   # text processor service endpoints
   # - in mode "remoteSingle" only the first endpoint will be used
   # - in mode "remoteMulti" all endpoints will be used

@@ -31,8 +31,8 @@ public class RandomStrategy extends AbstractLoadBalancerStrategy {
 	}
 
 	@Override
-	public void executeStrategy(String text) {
+	public String executeAndGetResult(String text) {
 		WebTarget target = this.getNextTarget();
-		this.executePOSTRequest(target, text);
+		return this.executePOSTRequest(target, text);
 	}
 }

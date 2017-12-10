@@ -50,12 +50,14 @@ public class LeastConnection extends AbstractLoadBalancerStrategy {
 	}
 
 	@Override
-	public void executeStrategy(String text) {
+	public String executeAndGetResult(String text) {
 		synchronized (this) {
+			String response = null;
 			WebTarget target = this.getNextTarget();
 			this.incrementNumConnections(target);
-			this.executePOSTRequest(target, text);
+			response = this.executePOSTRequest(target, text);
 			this.decrementNumConnections(target);
+			return response;
 		}
 	}
 }

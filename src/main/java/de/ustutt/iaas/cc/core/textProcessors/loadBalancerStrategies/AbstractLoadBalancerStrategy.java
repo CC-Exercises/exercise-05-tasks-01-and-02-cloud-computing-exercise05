@@ -9,18 +9,29 @@ import javax.ws.rs.core.MediaType;
  *
  */
 public abstract class AbstractLoadBalancerStrategy {
-	protected String response;
+	/**
+	 * Executes the strategy and returns the result text.
+	 * 
+	 * @param text
+	 * @return The result text
+	 */
+	public abstract String executeAndGetResult(String text);
 
-	public abstract void executeStrategy(String text);
-
+	/**
+	 * Returns the next to be invoked web target.
+	 * 
+	 * @return Next web target
+	 */
 	protected abstract WebTarget getNextTarget();
 
-	protected void executePOSTRequest(WebTarget target, String text) {
-		this.response = target.request(MediaType.TEXT_PLAIN).post(Entity.entity(text, MediaType.TEXT_PLAIN),
-				String.class);
-	}
-
-	public String getResponse() {
-		return this.response;
+	/**
+	 * Executes the POST request which sends the text to the next web target.
+	 * 
+	 * @param target
+	 * @param text
+	 * @return The processed text
+	 */
+	protected String executePOSTRequest(WebTarget target, String text) {
+		return target.request(MediaType.TEXT_PLAIN).post(Entity.entity(text, MediaType.TEXT_PLAIN), String.class);
 	}
 }

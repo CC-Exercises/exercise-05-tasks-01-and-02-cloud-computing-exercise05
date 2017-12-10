@@ -10,18 +10,17 @@ import de.ustutt.iaas.cc.core.textProcessors.loadBalancerStrategies.AbstractLoad
  */
 public class RemoteTextProcessorMulti implements ITextProcessor {
 	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(RemoteTextProcessorMulti.class);
-	private AbstractLoadBalancerStrategy strategyExecutor;
+	private AbstractLoadBalancerStrategy strategy;
 
-	public RemoteTextProcessorMulti(AbstractLoadBalancerStrategy strategyExecutor) {
+	public RemoteTextProcessorMulti(AbstractLoadBalancerStrategy strategy) {
 		super();
-		this.strategyExecutor = strategyExecutor;
-		logger.info("Load balancer strategy: {}", strategyExecutor.getClass().getName());
+		this.strategy = strategy;
+		logger.info("Load balancer strategy: {}", strategy.getClass().getName());
 	}
 
 	@Override
 	public String process(String text) {
-		strategyExecutor.executeStrategy(text);
-		String processedText = strategyExecutor.getResponse();
+		String processedText = strategy.executeAndGetResult(text);
 		return processedText != null ? processedText : text;
 	}
 }
