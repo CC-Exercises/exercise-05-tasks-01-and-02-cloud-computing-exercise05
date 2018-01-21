@@ -57,7 +57,7 @@ database:
   # the name of your JDBC driver
   # - H2: org.h2.Driver 
   # - MySQL: com.mysql.jdbc.Driver
-  driverClass: org.h2.Driver
+  driverClass: com.mysql.jdbc.Driver
   # the username
   # - H2 default root: sa
   user: ${dbprops.user!'sa'}
@@ -101,16 +101,16 @@ serviceInstanceID: My first Notebook App
 
 textProcessor:
   # local, remoteSingle, remoteMulti, queue 
-  mode: remoteMulti
+  mode: local
   # in case of 'remoteMulti' load balancer strategy is needed for the selecting of the textProcessors
   # random, roundRobin, leastConnection
-  loadBalancerStrategy: leastConnection
+  loadBalancerStrategy: roundRobin
   # text processor service endpoints
   # - in mode "remoteSingle" only the first endpoint will be used
   # - in mode "remoteMulti" all endpoints will be used
   textProcessors:
-    - http://ec2-52-41-231-16.us-west-2.compute.amazonaws.com/api
-    - http://ec2-34-216-171-4.us-west-2.compute.amazonaws.com/api
+    - http://localhost:8090/api
+    - http://localhost:8092/api
     # - http://localhost:8090/api
     # - http://localhost:8091/api
   # SQS, ActiveMQ
@@ -128,4 +128,4 @@ notesDB:
   # tmp = non-persistent in-memory
   # jdbc = SQL database, requires JDBC database configuration (http://www.dropwizard.io/1.1.0/docs/manual/jdbi.html)
   # gcds = google cloud datastore
-  mode: tmp
+  mode: jdbc	
